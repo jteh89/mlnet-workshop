@@ -31,3 +31,6 @@ jobs:
     - name: Train
       working-directory: 'src/TrainConsole'
       run: dotnet run --project TrainConsole.csproj
+    - name: Model Tests
+      working-directory: 'test/ModelTests'      
+      run: dotnet test ModelTests.csproj   
