@@ -1,20 +1,16 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Web.Services;
+using Microsoft.Extensions.ML;
+using Shared;
 
 namespace Web
 {
-    public class Startup
+	public class Startup
     {
         private readonly IWebHostEnvironment _env;
 
@@ -33,6 +29,7 @@ namespace Web
             services.AddTransient<ICarModelService,CarFileModelService>((opt) => {
                 var filePath = Path.Join(_env.WebRootPath, "data", "carmakerdetails.json");
                 return new CarFileModelService(filePath);});
+            services.AddPredictionEnginePool<ModelInput, ModelOutput>().FromFile(modelName: "PricePrediction", filePath: @"C:\Readify\mlnet-workshop\MLModel.zip");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
